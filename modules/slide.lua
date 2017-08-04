@@ -20,7 +20,7 @@ local function module_init()
             error("arrow: " .. direction_string .. " is not a valid direction")
         end
 
-        hotkey.bind(mash, key, function()
+        local pressedFn = function()
             local win = window.focusedWindow()
             if win == nil then
                 return
@@ -30,7 +30,10 @@ local function module_init()
             local newframe = nudge_fn(dimensions)
 
             win:setFrame(newframe)
-        end)
+        end
+
+        -- Adding press & hold to trigger nudge
+        hotkey.bind(mash, key, pressedFn, nil, pressedFn)
     end
 end
 
